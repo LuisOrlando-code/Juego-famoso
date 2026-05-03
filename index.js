@@ -1,32 +1,19 @@
-var bloque = document.getElementById("bloque");
-var hueco = document.getElementById("hueco");
-var personaje = document.getElementById("personaje");
-var marcador = document.getElementById("marcador");
-var pantallaFin = document.getElementById("finJuego");
-
+var bloque = document.getElementById("block");
+var hueco = document.getElementById("hole");
+var personaje = document.getElementById("character");
 var saltando = 0;
-var puntaje = 0;
-var juegoActivo = true;
+var contador = 0;
 
-// Cambiar posición del hueco
-hueco.addEventListener("animationiteration", () => {
-    var posicionAleatoria = -((Math.random() * 300) + 100);
-    hueco.style.top = posicionAleatoria + "px";
-
-    if(juegoActivo){
-        puntaje++;
-        marcador.innerText = puntaje;
-    }
+hueco.addEventListener('animationiteration', () =>{
+    var aleatorio = -((Math.random()*300) + 150);
+    hueco.style.top = aleatorio + "px";
+    contador++;
 });
 
-// Bucle del juego
-setInterval(function () {
-    if(!juegoActivo) return;
-
+setInterval(function(){
     var topPersonaje = parseInt(window.getComputedStyle(personaje).getPropertyValue("top"));
-
-    // gravedad
-    if (saltando == 0) {
+    
+    if(saltando == 0){
         personaje.style.top = (topPersonaje + 3) + "px";
     }
 
@@ -34,51 +21,31 @@ setInterval(function () {
     var topHueco = parseInt(window.getComputedStyle(hueco).getPropertyValue("top"));
     var posicionRelativa = -(500 - topPersonaje);
 
-    // colisiones
-    if (
-        topPersonaje > 480 ||
-        (izquierdaBloque < 80 && izquierdaBloque > 30 &&
-        (posicionRelativa < topHueco || posicionRelativa > topHueco + 130))
-    ) {
-        terminarJuego();
+    if((topPersonaje > 480) || ((izquierdaBloque < 50) && (izquierdaBloque > 0) && ((posicionRelativa < topHueco) || (posicionRelativa > topHueco + 130)))){
+        alert("Game Over. Score: " + (contador - 1));
+        personaje.style.top = "100px";
+        contador = 0;
     }
 
 }, 10);
 
-// saltar
-function saltar() {
-    if(!juegoActivo) return;
-
+function saltar(){
     saltando = 1;
-    let contador = 0;
+    let contadorSalto = 0;
 
-    var intervalo = setInterval(function () {
+    var intervaloSalto = setInterval(function(){
         var topPersonaje = parseInt(window.getComputedStyle(personaje).getPropertyValue("top"));
 
-        if (topPersonaje > 0 && contador < 15) {
+        if((topPersonaje > 6) && (contadorSalto < 15)){
             personaje.style.top = (topPersonaje - 5) + "px";
         }
 
-        if (contador > 20) {
-            clearInterval(intervalo);
+        if(contadorSalto > 20){
+            clearInterval(intervaloSalto);
             saltando = 0;
+            contadorSalto = 0;
         }
 
-        contador++;
+        contadorSalto++;
     }, 10);
-}
-
-// game over
-function terminarJuego(){
-    juegoActivo = false;
-    pantallaFin.style.display = "block";
-}
-
-// reiniciar
-function reiniciar(){
-    juegoActivo = true;
-    puntaje = 0;
-    marcador.innerText = 0;
-    personaje.style.top = "100px";
-    pantallaFin.style.display = "none";
 }
