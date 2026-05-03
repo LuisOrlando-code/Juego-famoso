@@ -1,0 +1,67 @@
+body{
+    font-family: Arial;
+    text-align: center;
+    background: linear-gradient(to bottom, #87CEEB, #ffffff);
+}
+
+h1{
+    margin: 10px;
+}
+
+#juego{
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    margin: auto;
+    overflow: hidden;
+    background: #cceeff;
+    position: relative;
+}
+
+#bloque{
+    width: 50px;
+    height: 500px;
+    background: #333;
+    position: absolute;
+    left: 400px;
+    animation: mover 2s infinite linear;
+}
+
+#hueco{
+    width: 50px;
+    height: 150px;
+    background: #cceeff;
+    position: absolute;
+    left: 400px;
+    top: -200px;
+    animation: mover 2s infinite linear;
+}
+
+@keyframes mover{
+    0%{left: 400px;}
+    100%{left: -50px;}
+}
+
+#personaje{
+    width: 25px;
+    height: 25px;
+    background: red;
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    border-radius: 50%;
+}
+
+#finJuego{
+    display: none;
+    margin-top: 20px;
+}
+
+button{
+    padding: 10px 20px;
+    border: none;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
